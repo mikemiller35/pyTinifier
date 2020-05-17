@@ -1,5 +1,7 @@
 # Tinifier
 
+[![](https://images.microbadger.com/badges/version/mmillerlb/pytinifier.svg)](https://microbadger.com/images/mmillerlb/pytinifier "Get your own version badge on microbadger.com")
+
 ## What is this
 It's a url shortening service, duh! Using Flask and Sqlite.
 
