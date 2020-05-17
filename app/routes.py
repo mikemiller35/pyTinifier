@@ -1,8 +1,7 @@
-from app import app, Config
-from flask import Flask, request, render_template, redirect, abort
-from app import edCoder
 import sqlite3
 from urllib.parse import urlparse
+from flask import request, render_template, redirect, abort
+from app import app, edCoder
 
 host = app.config['HOST']
 
@@ -26,7 +25,7 @@ def home():
 
 
 @app.route('/api-create')
-def apiCreate():
+def api_create():
     url = request.args.get('url')
     if url is None or url == '':
         abort(500)
@@ -57,8 +56,8 @@ def redirect_short_url(short_url):
         result_cursor = cursor.execute(select_row)
         try:
             redirect_url = result_cursor.fetchone()[0]
-        except Exception as e:
-            print(e)
+        except Exception as error:
+            print(error)
     return redirect(redirect_url)
 
 
