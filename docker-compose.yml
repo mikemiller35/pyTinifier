@@ -1,0 +1,13 @@
+version: '3.3'
+
+services:
+   pytinifier:
+     image: mmillerlb/pytinifier:latest
+     ports:
+       - "5000:5000"
+     restart: always
+     environment:
+       DBHOST: db
+       DBUSER: pytinifier
+       DBDB: pytinifier
+       FULL_URL: http://localhost:5000/
