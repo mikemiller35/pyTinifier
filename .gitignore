@@ -5,3 +5,4 @@ urls.db
 *.bak
 .idea/
 .vscode/
+.github/
