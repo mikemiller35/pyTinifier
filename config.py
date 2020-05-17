@@ -6,10 +6,7 @@ load_dotenv(os.path.join(basedir, '.env'))
 
 
 class Config:
-    # Docker?
-    DOCKER = os.environ.get('DOCKER') or False
-    # Host Info
-    HOST = os.environ.get('HOST') or "http://localhost:5000/"
-    # HOSTPORT = os.environ.get('HOSTPORT') or '80'
-    # sqlite3 info
+    # Full URL
+    HOST = os.environ.get('FULL_URL') or "http://localhost:5000/"
+    # sqlite3 info. will move to psql
     SQLITE = os.environ.get('DBHOST') or 'urls.db'    

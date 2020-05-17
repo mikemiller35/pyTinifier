@@ -33,6 +33,4 @@ Returns
 
 ## Pre-Flight
 
-Make sure you set your `HOST` variable. Example would be `https://pytinifier.herokuapp.com/`
-
-Probably should change that varible name...As it's your full web access URL.
+Make sure you set your `FULL_URL` variable. Example would be `https://pytinifier.herokuapp.com/`
