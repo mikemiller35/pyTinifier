@@ -1,5 +1,5 @@
 from app import app, Config
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect, abort
 from app import edCoder
 import sqlite3
 from urllib.parse import urlparse
@@ -28,6 +28,8 @@ def home():
 @app.route('/api-create')
 def apiCreate():
     url = request.args.get('url')
+    if url is None or url == '':
+        abort(500)
     if urlparse(url).scheme == '':
         url = 'http://' + url
     with sqlite3.connect(app.config['SQLITE']) as conn:

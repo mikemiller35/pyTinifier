@@ -22,4 +22,4 @@ import setup
 setup.dbCheck()
 app.logger.info('Done with setup')
 
-from app import routes, edCoder
+from app import routes, errors, edCoder
