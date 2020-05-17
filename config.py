@@ -5,7 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
 
 
-class Config(object):
+class Config:
     # Docker?
     DOCKER = os.environ.get('DOCKER') or False
     # Host Info
