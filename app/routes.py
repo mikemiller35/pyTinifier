@@ -1,11 +1,9 @@
-import sqlite3, psycopg2
+import psycopg2
 from urllib.parse import urlparse
 from flask import request, render_template, redirect, abort
-from app import app, edCoder, database
+from app import app, edCoder
 
 host = app.config['HOST']
-db = app.config['SQLITE']
-
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -54,17 +52,18 @@ def api_create():
 def redirect_short_url(short_url):
     decoded_string = edCoder.toBase10(short_url)
     redirect_url = host
-    with sqlite3.connect(db) as conn:
-        cursor = conn.cursor()
-        select_row = """
-                SELECT url FROM tiny
-                    WHERE ID=%s
-                """ % (decoded_string)
-        result_cursor = cursor.execute(select_row)
-        try:
-            redirect_url = result_cursor.fetchone()[0]
-        except Exception as error:
-            print(error)
+    conn = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'],
+                        database=app.config['DBDB'],
+                        user=app.config['DBUSER'], password=app.config['DBPASS'])
+    select_row = """
+            SELECT url FROM tiny WHERE ID=%s;
+            """ % (decoded_string)
+    cur = conn.cursor()
+    cur.execute(select_row)
+    try:
+        redirect_url = cur.fetchone()[0]
+    except Exception as error:
+        print(error)
     return redirect(redirect_url)
 
 
