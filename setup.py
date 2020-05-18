@@ -6,7 +6,7 @@ from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 def dbCheck():
     create_table = """
-        CREATE TABLE TINY(
+        CREATE TABLE TINY (
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         URL TEXT NOT NULL
         );
@@ -49,7 +49,7 @@ def dbSetup():
 
 def tblSetup():
     sql = """
-        CREATE TABLE tiny(
+        CREATE TABLE IF NOT EXISTS tiny(
    id SERIAL PRIMARY KEY,
    url VARCHAR NOT NULL
 );
@@ -68,4 +68,4 @@ def tblSetup():
     conn.commit()
 
     app.logger.info('Database setup!')
-    time.sleep(5)
+    time.sleep(1)
