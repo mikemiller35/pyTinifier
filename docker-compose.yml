@@ -1,13 +1,26 @@
 version: '3.3'
 
 services:
-   pytinifier:
-     image: mmillerlb/pytinifier:latest
+  db:
+     image: postgres:12.1
+     ports:
+       - "5432:5432"
+     restart: always
+     environment:
+       POSTGRES_DB: pytinifier
+       POSTGRES_USER: pytinifier
+       POSTGRES_PASSWORD: password
+       
+  pytinifier:
+     depends_on:
+       - db
+     image: 5850690f298c
      ports:
        - "5000:5000"
      restart: always
      environment:
        DBHOST: db
        DBUSER: pytinifier
+       DBPASS: password
        DBDB: pytinifier
        FULL_URL: http://localhost:5000/

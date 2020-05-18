@@ -1,10 +1,9 @@
-import sqlite3
+import psycopg2
 from urllib.parse import urlparse
 from flask import request, render_template, redirect, abort
 from app import app, edCoder
 
 host = app.config['HOST']
-
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -12,14 +11,17 @@ def home():
         original_url = request.form.get('url')
         if urlparse(original_url).scheme == '':
             original_url = 'http://' + original_url
-        with sqlite3.connect(app.config['SQLITE']) as conn:
-            cursor = conn.cursor()
-            insert_row = """
-                INSERT INTO TINY (URL)
-                    VALUES ('%s')
+        conn = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'],
+                        database=app.config['DBDB'],
+                        user=app.config['DBUSER'], password=app.config['DBPASS'])
+        insert_row = """
+                INSERT INTO tiny(url) VALUES('%s') RETURNING id;
                 """ % (original_url)
-            result_cursor = cursor.execute(insert_row)
-            encoded_string = edCoder.toBase62(result_cursor.lastrowid)
+        cur = conn.cursor()
+        cur.execute(insert_row)
+        conn.commit()
+        result_cursor = cur.fetchone()[0]
+        encoded_string = edCoder.toBase62(result_cursor)
         return render_template('home.html', short_url=host + encoded_string)
     return render_template('home.html')
 
@@ -31,15 +33,18 @@ def api_create():
         abort(500)
     if urlparse(url).scheme == '':
         url = 'http://' + url
-    with sqlite3.connect(app.config['SQLITE']) as conn:
-        cursor = conn.cursor()
-        insert_row = """
-            INSERT INTO TINY (URL)
-                VALUES ('%s')
+    conn = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'],
+                        database=app.config['DBDB'],
+                        user=app.config['DBUSER'], password=app.config['DBPASS'])
+    insert_row = """
+            INSERT INTO tiny(url) VALUES('%s') RETURNING id;
             """ % (url)
-        result_cursor = cursor.execute(insert_row)
-        encoded_string = edCoder.toBase62(result_cursor.lastrowid)
-        short_url = host + encoded_string
+    cur = conn.cursor()
+    cur.execute(insert_row)
+    conn.commit()
+    result_cursor = cur.fetchone()[0]
+    encoded_string = edCoder.toBase62(result_cursor)
+    short_url = host + encoded_string
     return short_url
 
 
@@ -47,17 +52,18 @@ def api_create():
 def redirect_short_url(short_url):
     decoded_string = edCoder.toBase10(short_url)
     redirect_url = host
-    with sqlite3.connect(app.config['SQLITE']) as conn:
-        cursor = conn.cursor()
-        select_row = """
-                SELECT URL FROM TINY
-                    WHERE ID=%s
-                """ % (decoded_string)
-        result_cursor = cursor.execute(select_row)
-        try:
-            redirect_url = result_cursor.fetchone()[0]
-        except Exception as error:
-            print(error)
+    conn = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'],
+                        database=app.config['DBDB'],
+                        user=app.config['DBUSER'], password=app.config['DBPASS'])
+    select_row = """
+            SELECT url FROM tiny WHERE ID=%s;
+            """ % (decoded_string)
+    cur = conn.cursor()
+    cur.execute(select_row)
+    try:
+        redirect_url = cur.fetchone()[0]
+    except Exception as error:
+        print(error)
     return redirect(redirect_url)
 
 
