@@ -4,6 +4,7 @@ from flask import request, render_template, redirect, abort
 from app import app, edCoder
 
 host = app.config['HOST']
+db = app.config['SQLITE']
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -12,7 +13,7 @@ def home():
         original_url = request.form.get('url')
         if urlparse(original_url).scheme == '':
             original_url = 'http://' + original_url
-        with sqlite3.connect(app.config['SQLITE']) as conn:
+        with sqlite3.connect(db) as conn:
             cursor = conn.cursor()
             insert_row = """
                 INSERT INTO TINY (URL)
@@ -31,7 +32,7 @@ def api_create():
         abort(500)
     if urlparse(url).scheme == '':
         url = 'http://' + url
-    with sqlite3.connect(app.config['SQLITE']) as conn:
+    with sqlite3.connect(db) as conn:
         cursor = conn.cursor()
         insert_row = """
             INSERT INTO TINY (URL)
@@ -47,7 +48,7 @@ def api_create():
 def redirect_short_url(short_url):
     decoded_string = edCoder.toBase10(short_url)
     redirect_url = host
-    with sqlite3.connect(app.config['SQLITE']) as conn:
+    with sqlite3.connect(db) as conn:
         cursor = conn.cursor()
         select_row = """
                 SELECT URL FROM TINY

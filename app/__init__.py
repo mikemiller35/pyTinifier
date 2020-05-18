@@ -20,6 +20,7 @@ app.logger.setLevel(logging.INFO)
 import setup
 
 setup.dbCheck()
+setup.dbSetup()
 app.logger.info('Done with setup')
 
 from app import routes, errors, edCoder
