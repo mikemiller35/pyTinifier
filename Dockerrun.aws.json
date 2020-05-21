@@ -1,4 +1,5 @@
 {
+    "AWSEBDockerrunVersion": 2,
     "containerDefinitions": [
         {
             "environment": [
@@ -18,7 +19,7 @@
             "essential": true,
             "image": "postgres:12.1",
             "name": "db",
-            "memory": "515 mb",
+            "memory": 256,
             "portMappings": [
                 {
                     "containerPort": 5432,
@@ -52,12 +53,15 @@
             "essential": true,
             "image": "mmillerlb/pytinifier:latest",
             "name": "pytinifier",
-            "memory": "515 mb",
+            "memory": 256,
             "portMappings": [
                 {
                     "containerPort": 5000,
                     "hostPort": 5000
                 }
+            ],
+            "links": [
+                "db"
             ]
         }
     ],

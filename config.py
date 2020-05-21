@@ -16,3 +16,4 @@ class Config:
     DBUSER = os.environ.get('DBUSER') or ''
     DBPASS = os.environ.get('DBPASS') or 'password'
     DBDB = os.environ.get('DBDB') or 'pytinifier'
+    DATABASE_URL = os.environ.get('DATABASE_URL')

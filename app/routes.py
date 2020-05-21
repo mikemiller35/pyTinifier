@@ -1,7 +1,7 @@
 import psycopg2
 from urllib.parse import urlparse
 from flask import request, render_template, redirect, abort
-from app import app, edCoder
+from app import app, edCoder, database
 
 host = app.config['HOST']
 
@@ -11,9 +11,7 @@ def home():
         original_url = request.form.get('url')
         if urlparse(original_url).scheme == '':
             original_url = 'http://' + original_url
-        conn = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'],
-                        database=app.config['DBDB'],
-                        user=app.config['DBUSER'], password=app.config['DBPASS'])
+        conn = database.MyDatabase()
         insert_row = """
                 INSERT INTO tiny(url) VALUES('%s') RETURNING id;
                 """ % (original_url)
