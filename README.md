@@ -5,9 +5,11 @@
 
 Demo hosted on Heroku. Data isn't persistant there yet! Postgres coming?
 
-Run it locally in Docker - `docker run -p 5000:5000 --rm --name pyTinifier -it mmillerlb/pytinifier:latest`
+Run it locally in Docker - `docker-compose -f docker-compose.yml up -d`
 
 Or just with Flask, or with Heroku, or whatever you please.
+
+🚧 🚧 🚧 **The Master Branch is currently broken! Please use the stable branch!** 🚧 🚧 🚧
 
 ## What is this
 
