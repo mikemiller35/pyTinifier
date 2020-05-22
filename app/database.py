@@ -19,8 +19,10 @@ class MyDatabase:
             user = uri.username
             password = uri.password
         try:
-            self.conn = psycopg2.connect(host, port, database, user, password)
-            cur = self.conn.cursor()
+            self.conn = psycopg2.connect(host=host, port=port, database=database, 
+                                            user=user, password=password)
+            self.cur = self.conn.cursor()
+            self.conn.commit()
         except (Exception, psycopg2.DatabaseError) as error:
             app.logger.warning("~ Can't connect to the DB! ~")
             app.logger.warning(error)
