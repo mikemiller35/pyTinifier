@@ -1,6 +1,6 @@
 from app import app
-import time
-import psycopg2
+import time, psycopg2
+from random import randrange
 from urllib.parse import urlparse
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
@@ -36,7 +36,7 @@ def dbSetup():
     app.logger.info('Database created!')
     tblSetup()
 
-    time.sleep(5)
+    time.sleep(randrange(5))
 
 def tblSetup():
     sql = """
