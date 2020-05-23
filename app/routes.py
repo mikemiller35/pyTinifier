@@ -4,6 +4,7 @@ from flask import request, render_template, redirect, abort
 from app import app, edCoder, database
 
 host = app.config['HOST']
+con, cur, db = database.init_db_conn()
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -12,13 +13,11 @@ def home():
         original_url = request.form.get('url')
         if urlparse(original_url).scheme == '':
             original_url = 'http://' + original_url
-        conn = database.MyDatabase()
-        insert_row = """
+        insert_record = """
                 INSERT INTO tiny(url) VALUES('%s') RETURNING id;
-                """ % (original_url)
-        cur = conn.cursor()
-        cur.execute(insert_row)
-        conn.commit()
+                """ % original_url
+        db(insert_record)
+        con.commit()
         result_cursor = cur.fetchone()[0]
         encoded_string = edCoder.toBase62(result_cursor)
         return render_template('home.html', short_url=host + encoded_string)
@@ -32,15 +31,11 @@ def api_create():
         abort(500)
     if urlparse(url).scheme == '':
         url = 'http://' + url
-    conn = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'],
-                            database=app.config['DBDB'],
-                            user=app.config['DBUSER'], password=app.config['DBPASS'])
-    insert_row = """
+    insert_record = """
             INSERT INTO tiny(url) VALUES('%s') RETURNING id;
             """ % (url)
-    cur = conn.cursor()
-    cur.execute(insert_row)
-    conn.commit()
+    db(insert_record)
+    con.commit()
     result_cursor = cur.fetchone()[0]
     encoded_string = edCoder.toBase62(result_cursor)
     short_url = host + encoded_string
@@ -51,14 +46,10 @@ def api_create():
 def redirect_short_url(short_url):
     decoded_string = edCoder.toBase10(short_url)
     redirect_url = host
-    conn = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'],
-                            database=app.config['DBDB'],
-                            user=app.config['DBUSER'], password=app.config['DBPASS'])
-    select_row = """
+    select_record = """
             SELECT url FROM tiny WHERE ID=%s;
             """ % (decoded_string)
-    cur = conn.cursor()
-    cur.execute(select_row)
+    db(select_record)
     try:
         redirect_url = cur.fetchone()[0]
     except Exception as error:
