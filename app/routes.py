@@ -20,7 +20,6 @@ def home():
         con.commit()
         result_cursor = cur.fetchone()[0]
         encoded_string = edCoder.toBase62(result_cursor)
-        cur.close()
         return render_template('home.html', short_url=host + encoded_string)
     return render_template('home.html')
 
@@ -39,7 +38,6 @@ def api_create():
     con.commit()
     result_cursor = cur.fetchone()[0]
     encoded_string = edCoder.toBase62(result_cursor)
-    cur.close()
     short_url = host + encoded_string
     return short_url
 
@@ -54,7 +52,6 @@ def redirect_short_url(short_url):
     db(select_record)
     try:
         redirect_url = cur.fetchone()[0]
-        cur.close()
     except Exception as error:
         print(error)
     return redirect(redirect_url)
