@@ -30,7 +30,7 @@
         <div class="main">
             <div class="container">
                 <br/>
-                {% if not short_url %}
+                {% if not tiny_url %}
                 <div class="row">
                     <div>
                         <h4>Enter URL</h4>
@@ -45,7 +45,7 @@
                 </div>
                 {% else %}
                 <div>
-                    Your Tinified URL is: <a href="{{short_url}}"> {{short_url}}</a>
+                    Your Tinified URL is: <a href="{{tiny_url}}"> {{tiny_url}}</a>
                 </div>
                 {% endif %}
             </div>

@@ -1,3 +1,4 @@
+import atexit
 from urllib.parse import urlparse
 from flask import request, render_template, redirect, abort
 from app import app, edCoder, database
@@ -19,7 +20,7 @@ def home():
         con.commit()
         result_cursor = cur.fetchone()[0]
         encoded_string = edCoder.to_base_62(result_cursor)
-        return render_template('home.html', short_url=hostname + encoded_string)
+        return render_template('home.html', tiny_url=hostname + encoded_string)
     return render_template('home.html')
 
 
@@ -37,13 +38,13 @@ def api_create():
     con.commit()
     result_cursor = cur.fetchone()[0]
     encoded_string = edCoder.to_base_62(result_cursor)
-    short_url = hostname + encoded_string
-    return short_url
+    tiny_url = hostname + encoded_string
+    return tiny_url
 
 
-@app.route('/<short_url>')
-def redirect_tiny_url(short_url):
-    decoded_string = edCoder.to_base_10(short_url)
+@app.route('/<tiny_url>')
+def redirect_tiny_url(tiny_url):
+    decoded_string = edCoder.to_base_10(tiny_url)
     redirect_url = hostname
     select_record = """
             SELECT url FROM tiny WHERE ID=%s;
@@ -56,5 +57,7 @@ def redirect_tiny_url(short_url):
     return redirect(redirect_url)
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+@atexit.register
+def end():
+    app.logger.info('Shutting app down')
+    cur.close()
