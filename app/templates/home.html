@@ -6,8 +6,14 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <style>
-    body,h1 {font-family: "Raleway", sans-serif}
-    body, html {height: 100%}
+    body, h1 {
+        font-family: "Raleway", sans-serif
+    }
+
+    body, html {
+        height: 100%
+    }
+
     .bgimg {
         background-image: url('https://www.w3schools.com/w3images/forestbridge.jpg');
         min-height: 100%;
@@ -16,37 +22,38 @@
     }
 </style>
 <body>
-    <div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
-        <div class="w3-display-topleft w3-padding-large w3-xlarge">
-            <a href="./home.html">Tinifier</a>
-        </div>
-        <div class="w3-display-middle">
-            <div class="main">
-                <div class="container">
-                    <br />
-                    {% if not short_url %}
-                    <div class="row">
-                        <div>
-                            <h4>Enter URL</h4>
-                            <form method="post" class="navbar-form navbar-right" action="">
-                                <div class="form-group">
-                                    <input type="text" id="url" name="url" class="form-control input-lg chat-input" placeholder="URL" />
-                                    <button type="submit" class="btn">Submit</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    {% else %}
+<div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
+    <div class="w3-display-topleft w3-padding-large w3-xlarge">
+        <a href="./home.html">Tinifier</a>
+    </div>
+    <div class="w3-display-middle">
+        <div class="main">
+            <div class="container">
+                <br/>
+                {% if not short_url %}
+                <div class="row">
                     <div>
-                        Your Tinified URL is: <a href="{{short_url}}"> {{short_url}}</a>
+                        <h4>Enter URL</h4>
+                        <form method="post" class="navbar-form navbar-right" action="">
+                            <div class="form-group">
+                                <input type="text" id="url" name="url" class="form-control input-lg chat-input"
+                                       placeholder="URL"/>
+                                <button type="submit" class="btn">Submit</button>
+                            </div>
+                        </form>
                     </div>
-                    {% endif %}
                 </div>
+                {% else %}
+                <div>
+                    Your Tinified URL is: <a href="{{short_url}}"> {{short_url}}</a>
+                </div>
+                {% endif %}
             </div>
         </div>
-        <div class="w3-display-bottomleft w3-padding-large">
-            <p><a href="https://github.com/ch0ppy35/">@ch0ppy35</a></p>
-        </div>
     </div>
+    <div class="w3-display-bottomleft w3-padding-large">
+        <p><a href="https://github.com/ch0ppy35/">@ch0ppy35</a></p>
+    </div>
+</div>
 </body>
 </html>

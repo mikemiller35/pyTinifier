@@ -3,17 +3,15 @@
 [![Docker](https://images.microbadger.com/badges/version/mmillerlb/pytinifier.svg)](https://hub.docker.com/r/mmillerlb/pytinifier)
 [![Heroku](https://heroku-badge.herokuapp.com/?app=heroku-badge)](https://pytinifier.herokuapp.com/)
 
-Demo hosted on Heroku. Data isn't persistant there yet! Postgres coming?
+Demo hosted on Heroku. Postgres ~~coming?~~ here!
 
 Run it locally in Docker - `docker-compose -f docker-compose.yml up -d`
 
 Or just with Flask, or with Heroku, or whatever you please.
 
-🚧 🚧 🚧 **The Master Branch is currently broken! Please use the stable branch!** 🚧 🚧 🚧
-
 ## What is this
 
-It's a url shortening service, duh! Using Flask and Sqlite.  _Really_ needs Postgres for persistance in Heroku
+It's a url shortening service, duh! Using Flask and Sqlite.
 
 Small and can run in a container
 

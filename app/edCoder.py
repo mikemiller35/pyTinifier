@@ -3,7 +3,7 @@ from string import ascii_lowercase, ascii_uppercase, digits
 
 
 # Base62 Encoder and Decoder
-def toBase62(num, b=62):
+def to_base_62(num, b=62):
     if b <= 0 or b > 62:
         return 0
     base = digits + ascii_lowercase + ascii_uppercase
@@ -17,7 +17,7 @@ def toBase62(num, b=62):
     return res
 
 
-def toBase10(num, b=62):
+def to_base_10(num, b=62):
     base = digits + ascii_lowercase + ascii_uppercase
     limit = len(num)
     res = 0

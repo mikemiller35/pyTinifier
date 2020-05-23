@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 
 con = cur = db = None
 
+
 def connect():
     global con, cur, db
     if app.config['DATABASE_URL'] is None or app.config['DATABASE_URL'] == '':
@@ -21,7 +22,7 @@ def connect():
         password = uri.password
     try:
         con = psycopg2.connect(host=host, port=port, database=database,
-                                        user=user, password=password)
+                               user=user, password=password)
         cur = con.cursor()
         db = cur.execute
     except psycopg2.DatabaseError as err:
@@ -30,7 +31,8 @@ def connect():
         print(err)
     sys.exit
 
+
 def init_db_conn():
     if not (con and cur and db):
         connect()
-    return (con, cur, db)
+    return con, cur, db
