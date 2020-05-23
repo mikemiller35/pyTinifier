@@ -5,6 +5,7 @@ from app import app, edCoder, database
 
 host = app.config['HOST']
 
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
@@ -32,8 +33,8 @@ def api_create():
     if urlparse(url).scheme == '':
         url = 'http://' + url
     conn = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'],
-                        database=app.config['DBDB'],
-                        user=app.config['DBUSER'], password=app.config['DBPASS'])
+                            database=app.config['DBDB'],
+                            user=app.config['DBUSER'], password=app.config['DBPASS'])
     insert_row = """
             INSERT INTO tiny(url) VALUES('%s') RETURNING id;
             """ % (url)
@@ -51,8 +52,8 @@ def redirect_short_url(short_url):
     decoded_string = edCoder.toBase10(short_url)
     redirect_url = host
     conn = psycopg2.connect(host=app.config['DBHOST'], port=app.config['DBPORT'],
-                        database=app.config['DBDB'],
-                        user=app.config['DBUSER'], password=app.config['DBPASS'])
+                            database=app.config['DBDB'],
+                            user=app.config['DBUSER'], password=app.config['DBPASS'])
     select_row = """
             SELECT url FROM tiny WHERE ID=%s;
             """ % (decoded_string)

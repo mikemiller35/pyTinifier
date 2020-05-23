@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 
 class MyDatabase:
     def __init__(self):
-        if app.config['DBHOST'] is None or app.config['DBHOST'] == '':
+        if app.config['DATABASE_URL'] is None or app.config['DATABASE_URL'] == '':
             host = app.config['DBHOST']
             port = app.config['DBPORT']
             database = app.config['DBDB']
@@ -19,10 +19,16 @@ class MyDatabase:
             user = uri.username
             password = uri.password
         try:
-            self.conn = psycopg2.connect(host=host, port=port, database=database, 
-                                            user=user, password=password)
-            self.cur = self.conn.cursor()
-            self.conn.commit()
+            self.conn = psycopg2.connect(host=host, port=port, database=database,
+                                         user=user, password=password)
         except (Exception, psycopg2.DatabaseError) as error:
             app.logger.warning("~ Can't connect to the DB! ~")
             app.logger.warning(error)
+
+    def cursor(self):
+        self.conn.cursor()
+        pass
+
+    def commit(self):
+        self.commit()
+        pass
