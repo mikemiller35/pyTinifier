@@ -1,6 +1,6 @@
-import sys, psycopg2
-from app import app
 from urllib.parse import urlparse
+import psycopg2
+from app import app
 
 con = cur = db = None
 
@@ -29,7 +29,6 @@ def connect():
         if con:
             con.rollback()
         print(err)
-    sys.exit
 
 
 def init_db_conn():
