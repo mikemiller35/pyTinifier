@@ -8,11 +8,18 @@ con = cur = db = None
 def connect():
     global con, cur, db
     if app.config['DATABASE_URL'] is None or app.config['DATABASE_URL'] == '':
-        host = app.config['DBHOST']
-        port = app.config['DBPORT']
-        database = app.config['DBDB']
-        user = app.config['DBUSER']
-        password = app.config['DBPASS']
+        if app.config['RDS_HOSTNAME'] is None or app.config['RDS_HOSTNAME'] == '':
+            host = app.config['DBHOST']
+            port = app.config['DBPORT']
+            database = app.config['DBDB']
+            user = app.config['DBUSER']
+            password = app.config['DBPASS']
+        else: 
+            host = app.config['RDS_HOSTNAME']
+            port = app.config['RDS_PORT']
+            database = app.config['RDS_DB_NAME']
+            user = app.config['RDS_USERNAME']
+            password = app.config['RDS_PASSWORD']
     else:
         uri = urlparse(app.config['DATABASE_URL'])
         host = uri.hostname
