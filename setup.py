@@ -1,15 +1,25 @@
 from app import app
 import time
 import psycopg2
+from urllib.parse import urlparse
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
-conn0 = psycopg2.connect(
-    host=app.config['DBHOST'],
-    port=app.config['DBPORT'],
-    database='postgres',
-    user=app.config['DBUSER'],
-    password=app.config['DBPASS']
-)
+if app.config['DATABASE_URL'] is None or app.config['DATABASE_URL'] == '':
+    host = app.config['DBHOST']
+    port = app.config['DBPORT']
+    database = app.config['DBDB']
+    user = app.config['DBUSER']
+    password = app.config['DBPASS']
+else:
+    uri = urlparse(app.config['DATABASE_URL'])
+    host = uri.hostname
+    port = '5432'
+    database = uri.path[1:]
+    user = uri.username
+    password = uri.password
+
+conn0 = psycopg2.connect(host=host, port=port, database=database,
+                                        user=user, password=password)
 
 
 def dbSetup():
@@ -36,11 +46,8 @@ def tblSetup():
 );
     """
     app.logger.info(sql)
-    conn = psycopg2.connect(host=app.config['DBHOST'],
-                            port=app.config['DBPORT'],
-                            database=app.config['DBDB'],
-                            user=app.config['DBUSER'],
-                            password=app.config['DBPASS'])
+    conn = psycopg2.connect(host=host, port=port, database=database,
+                                        user=user, password=password)
     cur = conn.cursor()
 
     cur.execute(sql)
