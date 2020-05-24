@@ -2,6 +2,7 @@ import unittest
 from math import floor
 from string import ascii_lowercase, ascii_uppercase, digits
 
+
 class test_edoder(unittest.TestCase):
 
     def test_to_base_62(self):
@@ -32,6 +33,7 @@ class test_edoder(unittest.TestCase):
             res = b * res + base.find(num[i])
         print("The dencoded value should be " + str(res))
         self.assertEqual(res, 101)
+
 
 if __name__ == '__main__':
     unittest.main()
