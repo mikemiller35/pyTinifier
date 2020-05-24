@@ -11,7 +11,7 @@ Or just with Flask, or with Heroku, or whatever you please.
 
 ## What is this
 
-It's a url shortening service, duh! Using Flask and Sqlite.
+It's a url shortening service, duh! Using Flask
 
 Small and can run in a container
 

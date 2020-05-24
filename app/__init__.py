@@ -1,6 +1,6 @@
 from flask import Flask
 from config import Config
-import logging, os
+import logging, os, time
 from logging.handlers import RotatingFileHandler
 
 app = Flask(__name__)
@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 if not os.path.exists('logs'):
-    os.mkdir('logs')
+    os.makedirs('logs', exist_ok=True)
 
 # Normal logging setup
 file_handler = RotatingFileHandler('logs/tinifier.log', maxBytes=10240, backupCount=10)
@@ -19,7 +19,12 @@ app.logger.setLevel(logging.INFO)
 
 import setup
 
-setup.dbSetup()
-app.logger.info('Done with setup')
+SETUP = app.config['SETUP']
+if SETUP == '0':
+    time.sleep(3)
+    setup.dbSetup()
+    app.logger.info('Done with setup')
+else:
+    app.logger.info('Skipping initial setup')
 
 from app import routes, errors, edCoder

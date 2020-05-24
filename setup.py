@@ -19,7 +19,7 @@ else:
     password = uri.password
 
 conn0 = psycopg2.connect(host=host, port=port, database=database,
-                                        user=user, password=password)
+                         user=user, password=password)
 
 
 def dbSetup():
@@ -29,6 +29,8 @@ def dbSetup():
     SELECT 'CREATE DATABASE %(s)s'
     WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = '%(s)s')
     """ % {'s': app.config['DBDB']}
+    app.logger.info("Checking on the database status..")
+    app.logger.info(sql)
     cur.execute(sql)
     cur.close()
     conn0.commit()
@@ -38,6 +40,7 @@ def dbSetup():
 
     time.sleep(randrange(5))
 
+
 def tblSetup():
     sql = """
         CREATE TABLE IF NOT EXISTS tiny(
@@ -45,9 +48,10 @@ def tblSetup():
    url VARCHAR NOT NULL
 );
     """
+    app.logger.info("Creating table if it's not here...")
     app.logger.info(sql)
     conn = psycopg2.connect(host=host, port=port, database=database,
-                                        user=user, password=password)
+                            user=user, password=password)
     cur = conn.cursor()
 
     cur.execute(sql)

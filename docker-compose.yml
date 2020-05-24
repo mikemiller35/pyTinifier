@@ -23,4 +23,5 @@ services:
        DBUSER: pytinifier
        DBPASS: password
        DBDB: pytinifier
+       IS_SETUP: 0
        FULL_URL: http://localhost:5000/
