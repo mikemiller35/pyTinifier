@@ -6,7 +6,7 @@ WORKDIR /code
 RUN pip install --upgrade pip; pip install --user -r requirements.txt
 COPY . .
 RUN python -m pylint --exit-zero *py app/*.py; \
-    python -m pytest -rA tests/*
+    python -m pytest -v tests/*.py
 
 # put-it-all-together Stage
 FROM python:3.7-alpine as app
