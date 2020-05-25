@@ -35,4 +35,6 @@ Returns
 
 ## Pre-Flight
 
-Make sure you set your `FULL_URL` variable. Example would be `https://pytinifier.herokuapp.com/`
+- `DBDB` Needs to be set, and it's assumed the DB is already created,
+    so do a `CREATE DATABASE pytinifier;`
+- Make sure you set your `FULL_URL` variable. Example would be `https://pytinifier.herokuapp.com/`

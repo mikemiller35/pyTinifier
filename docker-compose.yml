@@ -2,9 +2,7 @@ version: '3.3'
 
 services:
   db:
-     image: postgres:12.1
-     ports:
-       - "5432:5432"
+     image: postgres:12.3-alpine
      restart: always
      environment:
        POSTGRES_DB: pytinifier

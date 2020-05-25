@@ -4,12 +4,20 @@ from random import randrange
 from urllib.parse import urlparse
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
+
 if app.config['DATABASE_URL'] is None or app.config['DATABASE_URL'] == '':
-    host = app.config['DBHOST']
-    port = app.config['DBPORT']
-    database = app.config['DBDB']
-    user = app.config['DBUSER']
-    password = app.config['DBPASS']
+    if app.config['RDS_HOSTNAME'] is None or app.config['RDS_HOSTNAME'] == '':
+        host = app.config['DBHOST']
+        port = app.config['DBPORT']
+        database = app.config['DBDB']
+        user = app.config['DBUSER']
+        password = app.config['DBPASS']
+    else: 
+        host = app.config['RDS_HOSTNAME']
+        port = app.config['RDS_PORT']
+        database = app.config['RDS_DB_NAME']
+        user = app.config['RDS_USERNAME']
+        password = app.config['RDS_PASSWORD']
 else:
     uri = urlparse(app.config['DATABASE_URL'])
     host = uri.hostname
@@ -23,22 +31,8 @@ conn0 = psycopg2.connect(host=host, port=port, database=database,
 
 
 def dbSetup():
-    conn0.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-    cur = conn0.cursor()
-    sql = """
-    SELECT 'CREATE DATABASE %(s)s'
-    WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = '%(s)s')
-    """ % {'s': app.config['DBDB']}
-    app.logger.info("Checking on the database status..")
-    app.logger.info(sql)
-    cur.execute(sql)
-    cur.close()
-    conn0.commit()
-
-    app.logger.info('Database created!')
-    tblSetup()
-
     time.sleep(randrange(5))
+    tblSetup()
 
 
 def tblSetup():
@@ -60,4 +54,3 @@ def tblSetup():
     conn.commit()
 
     app.logger.info('Database setup!')
-    time.sleep(1)
