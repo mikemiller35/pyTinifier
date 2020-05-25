@@ -1,4 +1,5 @@
 import atexit
+import re
 from urllib.parse import urlparse
 from flask import request, render_template, redirect, abort
 from app import app, edCoder, database
@@ -13,6 +14,15 @@ def home():
         original_url = request.form.get('url')
         if urlparse(original_url).scheme == '':
             original_url = 'http://' + original_url
+        regex = re.compile(
+            r"^(?:http|ftp|s3)s?://"  # http:// or https://
+            r"(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|"
+            r"localhost|"  # localhost...
+            r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"  # ...or ip
+            r"(?::\d+)?"  # optional port
+            r"(?:/?|[/?]\S+)$", re.IGNORECASE)
+        if re.match(regex, original_url) is None:
+            abort(500)
         insert_record = """
                 INSERT INTO tiny(url) VALUES('%s') RETURNING id;
                 """ % original_url
