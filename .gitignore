@@ -1,9 +1,23 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
 venv/
 logs/
-__pycache__/
-.pytest_cache/
 urls.db
 *.bak*
+# Editors
 .idea/
 .vscode/
+# General
 .DS_Store
+.AppleDouble
+.LSOverride
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
