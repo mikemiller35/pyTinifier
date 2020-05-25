@@ -1,10 +1,12 @@
-# Build Stage
+# Build Stage & Lint/Test(s)
 FROM python:3.7-alpine as builder
 RUN apk add --update python3-dev gcc build-base postgresql-dev musl-dev
 COPY requirements.txt /code/requirements.txt
 WORKDIR /code
-RUN pip install --user -r requirements.txt
+RUN pip install --upgrade pip; pip install --user -r requirements.txt
 COPY . .
+RUN python -m pylint --exit-zero *py app/*.py; \
+    python -m pytest -rA tests/*
 
 # put-it-all-together Stage
 FROM python:3.7-alpine as app
