@@ -12,7 +12,7 @@ services:
   pytinifier:
      depends_on:
        - db
-     image: 49c10573f8c6
+     image: mmillerlb/pytinifier:latest
      ports:
        - "5000:5000"
      restart: always
