@@ -1,9 +1,8 @@
-from app import app
-import time, psycopg2
-from random import randrange
+import psycopg2
+import time
 from urllib.parse import urlparse
-from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
+from app import app
 
 if app.config['DATABASE_URL'] is None or app.config['DATABASE_URL'] == '':
     if app.config['RDS_HOSTNAME'] is None or app.config['RDS_HOSTNAME'] == '':
@@ -12,7 +11,7 @@ if app.config['DATABASE_URL'] is None or app.config['DATABASE_URL'] == '':
         database = app.config['DBDB']
         user = app.config['DBUSER']
         password = app.config['DBPASS']
-    else: 
+    else:
         host = app.config['RDS_HOSTNAME']
         port = app.config['RDS_PORT']
         database = app.config['RDS_DB_NAME']
@@ -26,21 +25,22 @@ else:
     user = uri.username
     password = uri.password
 
+time.sleep(5)
 conn0 = psycopg2.connect(host=host, port=port, database=database,
                          user=user, password=password)
 
 
-def dbSetup():
-    time.sleep(randrange(5))
-    tblSetup()
+def db_setup():
+    time.sleep(3)
+    tbl_setup()
 
 
-def tblSetup():
+def tbl_setup():
     sql = """
         CREATE TABLE IF NOT EXISTS tiny(
    id SERIAL PRIMARY KEY,
    url VARCHAR NOT NULL
-);
+    );
     """
     app.logger.info("Creating table if it's not here...")
     app.logger.info(sql)

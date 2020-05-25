@@ -14,7 +14,7 @@ def connect():
             database = app.config['DBDB']
             user = app.config['DBUSER']
             password = app.config['DBPASS']
-        else: 
+        else:
             host = app.config['RDS_HOSTNAME']
             port = app.config['RDS_PORT']
             database = app.config['RDS_DB_NAME']

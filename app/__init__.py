@@ -22,7 +22,7 @@ import setup
 SETUP = app.config['SETUP']
 if SETUP == '0':
     time.sleep(3)
-    setup.dbSetup()
+    setup.db_setup()
     app.logger.info('Done with setup')
 else:
     app.logger.info('Skipping initial setup')

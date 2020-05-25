@@ -3,7 +3,7 @@ from math import floor
 from string import ascii_lowercase, ascii_uppercase, digits
 
 
-class test_edoder(unittest.TestCase):
+class TestEdoder(unittest.TestCase):
 
     def test_to_base_62(self):
         print("Start to_base_62 test\n")
