@@ -6,3 +6,4 @@ urls.db
 *.bak*
 .idea/
 .vscode/
+.DS_Store

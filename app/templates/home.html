@@ -15,7 +15,7 @@
     }
 
     .bgimg {
-        background-image: url('https://www.w3schools.com/w3images/forestbridge.jpg');
+        background-image: url('/static/wallpaper.jpg');
         min-height: 100%;
         background-position: center;
         background-size: cover;
@@ -33,12 +33,12 @@
                 {% if not tiny_url %}
                 <div class="row">
                     <div>
-                        <h4>Enter URL</h4>
+                        <h4>Enter URL To Shorten</h4>
                         <form method="post" class="navbar-form navbar-right" action="">
                             <div class="form-group">
                                 <input type="text" id="url" name="url" class="form-control input-lg chat-input"
-                                       placeholder="URL"/>
-                                <button type="submit" class="btn">Submit</button>
+                                       placeholder="URL" required/>
+                                <button type="submit" class="btn">Do it!</button>
                             </div>
                         </form>
                     </div>
@@ -53,6 +53,9 @@
     </div>
     <div class="w3-display-bottomleft w3-padding-large">
         <p><a href="https://github.com/ch0ppy35/">@ch0ppy35</a></p>
+    </div>
+    <div class="w3-display-bottomright w3-padding-large">
+        <p><a href="https://www.w3schools.com/w3css/w3css_templates.asp">w3schools CSS</a></p>
     </div>
 </div>
 </body>

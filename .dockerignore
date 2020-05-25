@@ -8,3 +8,4 @@ urls.db
 .vscode/
 .github/
 .git
+.DS_Store
