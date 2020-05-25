@@ -4,7 +4,7 @@ from flask import request, render_template, redirect, abort
 from app import app, edCoder, database
 
 hostname = app.config['HOST']
-con, cur, db = database.init_db_conn()
+CON, CUR, DB = database.init_db_conn()
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -16,9 +16,9 @@ def home():
         insert_record = """
                 INSERT INTO tiny(url) VALUES('%s') RETURNING id;
                 """ % original_url
-        db(insert_record)
-        con.commit()
-        result_cursor = cur.fetchone()[0]
+        DB(insert_record)
+        CON.commit()
+        result_cursor = CUR.fetchone()[0]
         encoded_string = edCoder.to_base_62(result_cursor)
         return render_template('home.html', tiny_url=hostname + encoded_string)
     return render_template('home.html')
@@ -34,9 +34,9 @@ def api_create():
     insert_record = """
             INSERT INTO tiny(url) VALUES('%s') RETURNING id;
             """ % url
-    db(insert_record)
-    con.commit()
-    result_cursor = cur.fetchone()[0]
+    DB(insert_record)
+    CON.commit()
+    result_cursor = CUR.fetchone()[0]
     encoded_string = edCoder.to_base_62(result_cursor)
     tiny_url = hostname + encoded_string
     return tiny_url
@@ -49,9 +49,9 @@ def redirect_tiny_url(tiny_url):
     select_record = """
             SELECT url FROM tiny WHERE ID=%s;
             """ % decoded_string
-    db(select_record)
+    DB(select_record)
     try:
-        redirect_url = cur.fetchone()[0]
+        redirect_url = CUR.fetchone()[0]
     except Exception as error:
         print(error)
     return redirect(redirect_url)
@@ -60,4 +60,4 @@ def redirect_tiny_url(tiny_url):
 @atexit.register
 def end():
     app.logger.info('Shutting app down')
-    cur.close()
+    CUR.close()

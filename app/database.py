@@ -2,11 +2,11 @@ from urllib.parse import urlparse
 import psycopg2
 from app import app
 
-con = cur = db = None
+CON = CUR = DB = None
 
 
 def connect():
-    global con, cur, db
+    global CON, CUR, DB
     if app.config['DATABASE_URL'] is None or app.config['DATABASE_URL'] == '':
         if app.config['RDS_HOSTNAME'] is None or app.config['RDS_HOSTNAME'] == '':
             host = app.config['DBHOST']
@@ -28,17 +28,17 @@ def connect():
         user = uri.username
         password = uri.password
     try:
-        con = psycopg2.connect(host=host, port=port, database=database,
+        CON = psycopg2.connect(host=host, port=port, database=database,
                                user=user, password=password)
-        cur = con.cursor()
-        db = cur.execute
+        CUR = CON.cursor()
+        DB = CUR.execute
     except psycopg2.DatabaseError as err:
-        if con:
-            con.rollback()
+        if CON:
+            CON.rollback()
         print(err)
 
 
 def init_db_conn():
-    if not (con and cur and db):
+    if not (CON and CUR and DB):
         connect()
-    return con, cur, db
+    return CON, CUR, DB
